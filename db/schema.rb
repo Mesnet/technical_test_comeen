@@ -10,7 +10,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_10_25_095557) do
+ActiveRecord::Schema[7.0].define(version: 2024_10_25_120601) do
+  create_table "desk_bookings", force: :cascade do |t|
+    t.integer "desk_id", null: false
+    t.integer "user_id", null: false
+    t.datetime "start_datetime"
+    t.datetime "end_datetime"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["desk_id"], name: "index_desk_bookings_on_desk_id"
+    t.index ["user_id"], name: "index_desk_bookings_on_user_id"
+  end
+
+  create_table "desks", force: :cascade do |t|
+    t.string "name"
+    t.string "sync_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["sync_id"], name: "index_desks_on_sync_id", unique: true
+  end
+
   create_table "oauth_access_grants", force: :cascade do |t|
     t.integer "resource_owner_id", null: false
     t.integer "application_id", null: false
@@ -62,6 +81,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_25_095557) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "desk_bookings", "desks"
+  add_foreign_key "desk_bookings", "users"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_grants", "users", column: "resource_owner_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
