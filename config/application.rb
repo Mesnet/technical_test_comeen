@@ -38,6 +38,8 @@ module DeskBookingTest
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
 
+    config.integrations = config_for(:integrations)
+
     config.google_sheets = config_for("external_services/google_sheets")
   end
 end
