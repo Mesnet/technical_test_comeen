@@ -31,3 +31,10 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+
+# Ignore env files
+.env.*
+.env*.local
+!.env.development
+!.env.test
+!.env.example
