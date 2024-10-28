@@ -1,4 +1,17 @@
-google:
-  sheets:
-    scopes:
-      - https://www.googleapis.com/auth/spreadsheets.readonly
+default: &default
+  google:
+    sheets:
+      scopes:
+        - https://www.googleapis.com/auth/spreadsheets.readonly
+
+production:
+  <<: *default
+
+staging:
+  <<: *default
+
+development:
+  <<: *default
+
+test:
+  <<: *default
