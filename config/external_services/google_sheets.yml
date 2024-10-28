@@ -1,0 +1,15 @@
+default: &default
+  client_id: <%= ENV.fetch('GOOGLE_SHEETS_CLIENT_ID') %>
+  client_secret: <%= ENV.fetch('GOOGLE_SHEETS_CLIENT_SECRET') %>
+
+production:
+  <<: *default
+
+staging:
+  <<: *default
+
+development:
+  <<: *default
+
+test:
+  <<: *default
