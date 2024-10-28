@@ -10,4 +10,6 @@ class IntegrationGrant < ApplicationRecord
   validates :domain, presence: true, inclusion: {
     in: Rails.application.config.integrations.values.flat_map(&:keys),
   }
+
+  scope :for, ->(provider, domain) { where(provider:, domain:) }
 end
