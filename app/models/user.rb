@@ -6,4 +6,5 @@ class User < ApplicationRecord
   has_many :desk_bookings, dependent: :destroy
 
   validates :email, presence: true, uniqueness: true
+  validates :time_zone, presence: true, inclusion: { in: TZInfo::Timezone.all_identifiers }
 end
