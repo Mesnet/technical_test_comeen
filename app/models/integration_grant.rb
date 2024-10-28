@@ -12,4 +12,8 @@ class IntegrationGrant < ApplicationRecord
   }
 
   scope :for, ->(provider, domain) { where(provider:, domain:) }
+
+  def credentials
+    Integrations::Credentials.resolve(provider, domain)
+  end
 end
