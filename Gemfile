@@ -55,6 +55,8 @@ gem "aasm"
 gem "devise"
 # OAuth2 provider
 gem "doorkeeper"
+# Authorization
+gem "pundit"
 
 ## Integrations
 #
