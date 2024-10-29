@@ -5,6 +5,9 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby "3.2.2"
 
+# cli tasks
+gem "foreman"
+
 # Load env vars from file in DEV and TEST environments
 gem "dotenv", groups: [:development, :test], require: "dotenv/load"
 
