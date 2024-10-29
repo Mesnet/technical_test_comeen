@@ -7,8 +7,12 @@ Rails.application.routes.draw do
 
   use_doorkeeper
 
-  resources :desks
-  resources :desk_bookings, except: [:create, :update] do
+  resources :desks do
+    member do
+      post :book, to: "desk_bookings#create"
+    end
+  end
+  resources :desk_bookings, except: [:update] do
     member do
       post :check_in
       post :check_out
