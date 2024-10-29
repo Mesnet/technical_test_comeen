@@ -26,7 +26,7 @@ class DesksController < ApplicationController
 
   def update
     with_model_errors_handling do
-      desk.update!(desk_params)
+      @desk.update!(desk_params)
 
       render(jsonapi: @desk)
     end
