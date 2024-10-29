@@ -11,6 +11,9 @@ class IntegrationGrant < ApplicationRecord
     in: Rails.application.config.integrations.values.flat_map(&:keys),
   }
 
+  normalizes :provider, with: ->(provider) { provider.to_sym }
+  normalizes :domain, with: ->(domain) { domain.to_sym }
+
   scope :for, ->(provider, domain) { where(provider:, domain:) }
 
   def credentials
