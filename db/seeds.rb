@@ -22,7 +22,7 @@ desk_sheets = Google::DeskSheet.create!([
   { google_sheet_id: "5ryHHFcj1cnimHvv678t7SivrCrMHrnmfqd", last_synced_at: Time.current },
 ])
 
-_desks = Desk.create!([
+desks = Desk.create!([
   { name: "Enginnering - 1", sync_id: "B1F1D1", google_desk_sheet: desk_sheets.first },
   { name: "Enginnering - 2", sync_id: "B1F1D2", google_desk_sheet: desk_sheets.first },
   { name: "Enginnering - 3", sync_id: "B1F1D3", google_desk_sheet: desk_sheets.first },
@@ -39,3 +39,30 @@ _desks = Desk.create!([
   { name: "Consulting - 9", sync_id: "B3F3D9" },
   { name: "Consulting - 10", sync_id: "B3F3D10" },
 ])
+
+DeskBooking.create!([
+  {
+    desk: desks.first,
+    user: users.first,
+    start_datetime: 1.day.from_now.change(hour: 9),
+    end_datetime: 2.days.from_now.change(hour: 6),
+  },
+  {
+    desk: desks.second,
+    user: users.second,
+    start_datetime: 1.day.from_now.change(hour: 9),
+    end_datetime: 2.days.from_now.change(hour: 6),
+  },
+  {
+    desk: desks.third,
+    user: users.third,
+    start_datetime: 1.day.from_now.change(hour: 9),
+    end_datetime: 2.days.from_now.change(hour: 6),
+  },
+])
+
+Doorkeeper::Application.create!({
+  name: "API Dev client",
+  redirect_uri: "http://localhost:3000/",
+  confidential: false,
+})
