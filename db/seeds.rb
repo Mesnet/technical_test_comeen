@@ -14,9 +14,25 @@ users = User.create!([
   { email: "charlie@example.com" },
 ])
 
-_integration_grants = IntegrationGrant.create!([
+integration_grants = IntegrationGrant.create!([
   { user: users.first, provider: "google", domain: "sheets" },
 ])
+
+access_token = <<~TOKEN
+  "ya29.a0ARrdaM-VALID-TOKEN-EXAMPLE-1234567890"
+TOKEN
+
+refresh_token = <<~TOKEN
+  "1//0c-VALID-TOKEN-EXAMPLE-1234567890"
+TOKEN
+
+_google_oauth_tokens = Google::OauthToken.create!({
+  integration_grant: integration_grants.first,
+  access_token:,
+  refresh_token:,
+  scope: "https://www.googleapis.com/auth/spreadsheets",
+  expires_at: 1.day.from_now,
+})
 
 desk_sheets = Google::DeskSheet.create!([
   { google_sheet_id: "5ryHHFcj1cnimHvv678t7SivrCrMHrnmfqd", last_synced_at: Time.current },
