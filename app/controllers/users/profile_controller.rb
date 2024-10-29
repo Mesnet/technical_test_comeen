@@ -51,7 +51,7 @@ module Users
     end
 
     def user_params
-      params.require(:user).permit(:time_zone)
+      params.require(:user).permit(:email, :time_zone)
     end
   end
 end
