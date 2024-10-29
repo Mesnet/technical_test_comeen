@@ -43,8 +43,8 @@ gem "rack-cors"
 # Last modified at header, and general QoL
 gem "responders"
 
-# JSON API Serializer
-gem "jsonapi-serializer"
+# JSON API
+gem "jsonapi.rb"
 
 ## Auth
 #
