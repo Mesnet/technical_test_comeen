@@ -5,8 +5,13 @@ FactoryBot.define do
     user
     desk
 
-    start_time { Faker::Time.forward(days: 5, period: :morning) }
-    end_time { start_time + 8.hours }
+    transient do
+      starting { Faker::Time.forward(days: 5, period: :morning) }
+      ending { starting + 8.hours }
+    end
+
+    start_datetime { starting }
+    end_datetime { ending }
     status { "booked" }
   end
 end
