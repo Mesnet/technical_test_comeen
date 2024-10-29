@@ -84,6 +84,23 @@ RSpec.describe("users/profile", type: :request) do
         end
         run_test!
       end
+
+      response(200, "successfully show current user's profile", document: false) do
+        let(:id) { "me" }
+
+        after do |example|
+          parsed_response = JSON.parse(response.body, symbolize_names: true)
+
+          expect(parsed_response.dig(:data, :id).to_i).to(eq(user_model.id))
+
+          example.metadata[:response][:content] = {
+            "application/json" => {
+              example: parsed_response,
+            },
+          }
+        end
+        run_test!
+      end
     end
 
     [:put, :patch].each do |http_method|
