@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class DeskBooking < ApplicationRecord
+  include AASM
+
   belongs_to :desk
   belongs_to :user
 
@@ -14,5 +16,28 @@ class DeskBooking < ApplicationRecord
       starting: start_datetime,
       ending: end_datetime,
     )
+  end
+
+  aasm column: :state do
+    state :booked, initial: true
+    state :canceled
+    state :checked_in
+    state :checked_out
+
+    event :check_in do
+      transitions from: :booked, to: :checked_in, guard: :can_checkin?
+    end
+
+    event :check_out do
+      transitions from: :checked_in, to: :checked_out
+    end
+
+    event :cancel do
+      transitions from: [:booked, :checked_in], to: :canceled
+    end
+  end
+
+  def can_checkin?
+    start_datetime < Time.current
   end
 end
