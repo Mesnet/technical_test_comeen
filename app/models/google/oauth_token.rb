@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_dependency "google"
+
 module Google
   class OauthToken < ApplicationRecord
     belongs_to :integration_grant
