@@ -4,6 +4,12 @@ module Users
   class ProfileController < ApplicationController
     before_action :load_user, only: [:show, :update, :destroy]
 
+    def index
+      users = User.all
+
+      render(jsonapi: users)
+    end
+
     def show
       render(jsonapi: @user)
     end
