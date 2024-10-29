@@ -36,7 +36,7 @@ class DeskBookingsController < ApplicationController
     with_model_errors_handling do
       @desk_booking.check_in!
 
-      render(jsonapi: desk, status: :created)
+      render(jsonapi: @desk_booking)
     end
   end
 
@@ -44,7 +44,7 @@ class DeskBookingsController < ApplicationController
     with_model_errors_handling do
       @desk_booking.check_out!
 
-      render(jsonapi: @desk)
+      render(jsonapi: @desk_booking)
     end
   end
 
