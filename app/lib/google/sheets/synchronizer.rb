@@ -5,7 +5,7 @@ module Google
     class Synchronizer
       attr_reader :desk_sheet
 
-      def initialize(desk_sheet)
+      def initialize(credentials, desk_sheet)
         @desk_sheet = desk_sheet
       end
 
