@@ -1,22 +1,17 @@
 # frozen_string_literal: true
 
-require "google/apis/sheets_v4"
-require "googleauth"
-
 module Google
   module Sheets
     class SheetsService
       def initialize(credentials)
         @service = Google::Apis::SheetsV4::SheetsService.new
-        @service.client_options.application_name = "Desk Booking App"
-        @service.authorization = authorize
+        @service.authorization = credentials
       end
 
       def get_sheet(spreadsheet_id, range)
         # @service.get_spreadsheet_values(spreadsheet_id, range)
 
-        # Mock data
-
+        # Mock data, no need for actual API call in the scope of this test repository
         {
           values: [
             ["name", "sync_id"],
