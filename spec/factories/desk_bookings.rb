@@ -12,6 +12,6 @@ FactoryBot.define do
 
     start_datetime { starting }
     end_datetime { ending }
-    status { "booked" }
+    state { "booked" }
   end
 end
