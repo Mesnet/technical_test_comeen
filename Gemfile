@@ -46,6 +46,9 @@ gem "responders"
 # JSON API
 gem "jsonapi.rb"
 
+# State machine for models
+gem "aasm"
+
 ## Auth
 #
 # User authentication
