@@ -9,7 +9,7 @@ ruby "3.2.2"
 gem "dotenv", groups: [:development, :test], require: "dotenv/load"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 7.0.8", ">= 7.0.8.6"
+gem "rails", "~> 7.1"
 
 # Use sqlite3 as the database for Active Record
 gem "sqlite3", "~> 1.4"
@@ -40,6 +40,8 @@ gem "bootsnap", require: false
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 gem "rack-cors"
+# Last modified at header, and general QoL
+gem "responders"
 
 # JSON API Serializer
 gem "jsonapi-serializer"
