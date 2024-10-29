@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module Google
+  # This class is incomplete and is only meant to be used as a reference
   class DelegatedTokenCredentials < Signet::OAuth2::Client
     attr_reader :grant, :owner, :domain
 
@@ -15,7 +16,7 @@ module Google
         authorization_uri: "https://accounts.google.com/o/oauth2/v2/auth",
         token_credential_uri: "https://oauth2.googleapis.com/token",
         include_granted_scopes: false,
-        redirect_uri: "https://example.client.com/oauth",
+        redirect_uri: "https://localhost:3000/callback",
         scope: Rails.configuration.integrations.dig(:google, integration_grant.domain, :scopes),
         )
     end
