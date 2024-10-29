@@ -13,44 +13,401 @@ components:
           tokenUrl: http://localhost:3000/oauth/token
           scopes: {}
 paths:
-  "/users":
+  "/desks/{id}/book":
+    parameters:
+    - name: id
+      in: path
+      description: Desk id
+      required: true
+      schema:
+        type: integer
+    post:
+      summary: book a desk
+      tags:
+      - Desks
+      - Desk Bookings
+      security:
+      - apiOauth: []
+      parameters: []
+      responses:
+        '201':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                desk_booking:
+                  type: object
+                  properties:
+                    start_datetime:
+                      type: string
+                      format: date-time
+                    end_datetime:
+                      type: string
+                      format: date-time
+  "/desk_bookings/{id}/check_in":
+    parameters:
+    - name: id
+      in: path
+      description: Desk booking id
+      required: true
+      schema:
+        type: integer
+    post:
+      summary: check-in desk_booking
+      tags:
+      - Desks
+      - Desk Bookings
+      security:
+      - apiOauth: []
+      responses:
+        '200':
+          description: successful
+  "/desk_bookings/{id}/check_out":
+    parameters:
+    - name: id
+      in: path
+      description: Desk booking id
+      required: true
+      schema:
+        type: integer
+    post:
+      summary: check-out desk_booking
+      tags:
+      - Desks
+      - Desk Bookings
+      security:
+      - apiOauth: []
+      responses:
+        '200':
+          description: successful
+  "/desk_bookings":
     get:
-      summary: list profiles
+      summary: list desk bookings
       responses:
         '200':
           description: successful
     post:
-      summary: create profile
+      summary: book any desk
+      tags:
+      - Desks
+      - Desk Bookings
+      security:
+      - apiOauth: []
+      parameters: []
       responses:
-        '200':
+        '201':
           description: successful
-  "/users/{id}":
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                desk_booking:
+                  type: object
+                  properties:
+                    start_datetime:
+                      type: string
+                      format: date-time
+                    end_datetime:
+                      type: string
+                      format: date-time
+  "/desk_bookings/{id}":
     parameters:
     - name: id
       in: path
-      description: id
+      description: Desk booking id
       required: true
       schema:
-        type: string
+        type: integer
     get:
-      summary: show profile
+      summary: show desk booking
+      responses:
+        '200':
+          description: successful
+    delete:
+      summary: delete desk_booking
+      responses:
+        '204':
+          description: successful
+  "/desks":
+    get:
+      summary: list desks
+      tags:
+      - Desks
+      security:
+      - apiOauth: []
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: create desk
+      tags:
+      - Desks
+      security:
+      - apiOauth: []
+      parameters: []
+      responses:
+        '201':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                desk:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+  "/desks/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: Desk id
+      required: true
+      schema:
+        type: integer
+    get:
+      summary: show desk
+      tags:
+      - Desks
+      security:
+      - apiOauth: []
       responses:
         '200':
           description: successful
     patch:
-      summary: update profile
+      summary: update desk
+      tags:
+      - Desks
+      security:
+      - apiOauth: []
+      parameters: []
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                desk:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+    put:
+      summary: update desk
+      tags:
+      - Desks
+      security:
+      - apiOauth: []
+      parameters: []
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                desk:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+    delete:
+      summary: delete desk
+      responses:
+        '204':
+          description: successful
+  "/google/desk_sheets/{id}/sync":
+    parameters:
+    - name: id
+      in: path
+      description: Desk sheet id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: list changes to desks in desk sheet
+      tags:
+      - Google Sheets Desk Sync
+      security:
+      - apiOauth: []
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: apply changes made to desks in desk sheet
+      tags:
+      - Google Sheets Desk Sync
+      security:
+      - apiOauth: []
+      responses:
+        '200':
+          description: successful
+  "/google/desk_sheets":
+    get:
+      summary: list desk sheets
+      tags:
+      - Google Sheets Desk Sync
+      security:
+      - apiOauth: []
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: create Desk sheet
+      tags:
+      - Google Sheets Desk Sync
+      security:
+      - apiOauth: []
+      parameters: []
+      responses:
+        '201':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                desk_sheet:
+                  type: object
+                  properties:
+                    google_sheet_id:
+                      type: string
+  "/google/desk_sheets/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: Desk sheet id
+      required: true
+      schema:
+        type: integer
+    delete:
+      summary: delete desk_sheet
+      responses:
+        '204':
+          description: successful
+  "/users":
+    get:
+      summary: list user profiles
+      tags:
+      - Users
+      security:
+      - apiOauth: []
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: create user profile
+      tags:
+      - Users
+      security:
+      - apiOauth: []
+      parameters: []
+      responses:
+        '201':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: object
+                  properties:
+                    email:
+                      type: string
+                    password:
+                      type: string
+                    time_zone:
+                      type: string
+  "/users/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: User id
+      required: true
+      schema:
+        type: integer
+    get:
+      summary: show profile
+      tags:
+      - Users
+      security:
+      - apiOauth: []
       responses:
         '200':
           description: successful
     put:
       summary: update profile
+      tags:
+      - Users
+      security:
+      - apiOauth: []
+      parameters: []
       responses:
         '200':
           description: successful
-    delete:
-      summary: delete profile
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: object
+                  properties:
+                    email:
+                      type: string
+                    password:
+                      type: string
+                    time_zone:
+                      type: string
+    patch:
+      summary: update profile
+      tags:
+      - Users
+      security:
+      - apiOauth: []
+      parameters: []
       responses:
         '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: object
+                  properties:
+                    email:
+                      type: string
+                    password:
+                      type: string
+                    time_zone:
+                      type: string
+    delete:
+      summary: delete profile
+      tags:
+      - Users
+      security:
+      - apiOauth: []
+      responses:
+        '204':
           description: successful
 servers:
 - url: "/"
