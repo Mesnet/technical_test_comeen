@@ -18,4 +18,12 @@ class ApplicationController < ActionController::API
   def current_user
     current_resource_owner
   end
+
+  def current_resource_owner
+    return unless doorkeeper_token
+
+    @current_resource_owner ||= if doorkeeper_token.resource_owner_id.present?
+      User.find(doorkeeper_token.resource_owner_id)
+    end
+  end
 end
