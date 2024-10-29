@@ -21,7 +21,7 @@ Rails.application.routes.draw do
   resources :users, controller: "users/profile"
 
   namespace :google do
-    resources :desks_sheets, except: [:update, :show] do
+    resources :desk_sheets, except: [:update, :show] do
       member do
         get :sync, to: "list_sync_changes" # GET = list changes that will be made
         post :sync, to: "commit_sync" # POST = apply changes
