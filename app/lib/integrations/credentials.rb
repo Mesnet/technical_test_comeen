@@ -8,7 +8,7 @@ module Integrations
       def resolve(provider, domain)
         case provider.to_sym
         when :google
-          Google::DelegatedTokenCredentials.new(domain)
+          Google::DelegatedTokenCredentials
         else
           raise UnknownProviderError, "Unknown provider: #{provider}"
         end
