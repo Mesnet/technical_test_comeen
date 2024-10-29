@@ -14,6 +14,24 @@ class DeskBookingsController < ApplicationController
     render(jsonapi: @desk_booking)
   end
 
+  def create
+    @desk_booking = DeskBooking.new(desk_booking_params)
+    @desk = @desk_booking.desk
+    assist = Desks::Booking::Assistant.new(
+      current_user,
+      @desk_booking.start_datetime,
+      @desk_booking.end_datetime,
+    )
+
+    with_model_errors_handling do
+      @desk_booking = assist.book!(desk: @desk_booking.desk)
+
+      render(jsonapi: @desk_booking, status: :created)
+    rescue Desks::Booking::Errors::DeskBookingError => e
+      render(jsonapi_errors: e.message, status: :unprocessable_entity)
+    end
+  end
+
   def check_in
     with_model_errors_handling do
       @desk_booking.check_in!
@@ -42,5 +60,9 @@ class DeskBookingsController < ApplicationController
 
   def load_desk_booking
     @desk_booking = DeskBooking.find(params[:id])
+  end
+
+  def desk_booking_params
+    params.require(:desk_booking).permit(:start_datetime, :end_datetime)
   end
 end
