@@ -102,6 +102,11 @@ GEM
     dotenv (3.1.0)
     drb (2.2.1)
     erubi (1.13.0)
+    factory_bot (6.5.0)
+      activesupport (>= 5.0.0)
+    factory_bot_rails (6.4.4)
+      factory_bot (~> 6.5)
+      railties (>= 5.0.0)
     faraday (2.12.0)
       faraday-net_http (>= 2.0, < 3.4)
       json
@@ -304,6 +309,8 @@ GEM
       rubocop (~> 1.51)
     ruby-progressbar (1.13.0)
     securerandom (0.3.1)
+    shoulda-matchers (5.3.0)
+      activesupport (>= 5.2.0)
     signet (0.19.0)
       addressable (~> 2.8)
       faraday (>= 0.17.5, < 3.a)
@@ -338,6 +345,7 @@ DEPENDENCIES
   devise
   doorkeeper
   dotenv
+  factory_bot_rails
   google-apis-sheets_v4
   jsonapi.rb
   puma (~> 5.0)
@@ -354,6 +362,7 @@ DEPENDENCIES
   rubocop-performance
   rubocop-rails
   rubocop-shopify
+  shoulda-matchers (~> 5.0)
   sqlite3 (~> 1.4)
   tzinfo-data
 

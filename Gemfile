@@ -74,6 +74,10 @@ group :development, :test do
   gem "rspec", require: false
   gem "rspec-rails"
   gem "rswag-specs"
+
+  gem "shoulda-matchers", "~> 5.0"
+
+  gem "factory_bot_rails"
 end
 
 group :development do
