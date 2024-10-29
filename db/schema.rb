@@ -97,7 +97,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_28_134826) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "time_zone", default: "UTC", null: false
-    t.index "\"reset_password_token\"", name: "index_users_on_reset_password_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
