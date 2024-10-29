@@ -16,7 +16,11 @@ class IntegrationGrant < ApplicationRecord
 
   scope :for, ->(provider, domain) { where(provider:, domain:) }
 
+  before_destroy do
+    credentials.destroy
+  end
+
   def credentials
-    Integrations::Credentials.resolve(provider, domain)
+    Integrations::Credentials.resolve(provider, domain).new(self)
   end
 end
