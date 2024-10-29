@@ -7,13 +7,21 @@ Rails.application.routes.draw do
   # root "articles#index"
   use_doorkeeper
 
-  devise_for :users,
-    path: "",
-    path_names: {
-      registration: "signup",
-    },
-    controllers: {
-      sessions: "users/sessions",
-      registrations: "users/registrations",
-    }
+  resources :desks
+  resources :desk_bookings, except: [:create, :update] do
+    member do
+      post :check_in
+      post :check_out
+    end
+  end
+  resources :users, controller: "users/profile"
+
+  namespace :google do
+    resources :desks_sheets, except: [:update, :show] do
+      member do
+        get :sync, to: "list_sync_changes" # GET = list changes that will be made
+        post :sync, to: "commit_sync" # POST = apply changes
+      end
+    end
+  end
 end
