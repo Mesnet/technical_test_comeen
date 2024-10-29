@@ -1,24 +1,36 @@
-# README
+Rails 7 API test
+===
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Objective
+---
 
-Things you may want to cover:
+Develop an integration with a third-party device "deskq"
+- Add a new integration type & its stored credentials (API key)
+- When someone books a Desk, or the Desk booking period begins, use the new "deskq" to change the LED color of the device
 
-* Ruby version
 
-* System dependencies
+Requirements
+---
+- Ruby 3.2.2
+- Redis
+- bundler
 
-* Configuration
+Development
+---
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Make your own env file
+```sh
+cp .env.example .env.development.local
+```
+Install dependencies
+```sh
+bundle install
+```
+Setup database & seed it with initial data
+```
+bundle exec rails db:setup
+```
+Run the server and jobs worker
+```
+foreman start
+```
