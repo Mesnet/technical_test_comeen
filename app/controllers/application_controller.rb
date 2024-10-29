@@ -11,7 +11,7 @@ class ApplicationController < ActionController::API
     begin
       yield
     rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved, ActiveRecord::RecordNotDestroyed => e
-      render(jsonapi: e.record.errors, status: :unprocessable_entity)
+      render(jsonapi_errors: e.record.errors, status: :unprocessable_entity)
     end
   end
 
