@@ -81,7 +81,8 @@ Technical constraints
 Instructions for handing in the test
 ---
 
-* Fork the repository and make the necessary changes
+* Clone the repository and push it to a new one (**do not fork it**)
+* Make the necessary changes
 * Commit your changes and provide the link to your repository when complete.
 
 Requirements
