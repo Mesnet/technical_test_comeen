@@ -40,4 +40,10 @@ class DeskBooking < ApplicationRecord
   def can_checkin?
     start_datetime < Time.current
   end
+
+  def active?
+    return false unless start_datetime && end_datetime
+    current_time = Time.current.in_time_zone(user.time_zone)
+    current_time.between?(start_datetime, end_datetime)
+  end
 end
