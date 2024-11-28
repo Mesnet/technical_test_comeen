@@ -87,6 +87,7 @@ group :development, :test do
   gem "faker"
   gem "factory_bot_rails"
   gem 'webmock' # For mocking HTTP requests
+  gem 'timecop'
   gem 'pry-byebug' # For debugging
 end
 

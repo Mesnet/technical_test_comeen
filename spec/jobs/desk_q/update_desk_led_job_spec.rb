@@ -14,20 +14,7 @@ RSpec.describe DeskQ::UpdateDeskLedJob, type: :job do
         expect(api_instance).to receive(:update).with('12345', { color: 'RED' }).and_return(true)
 
         # Perform the job
-        described_class.perform_now(desk_booking.id, 'RED')
-      end
-    end
-
-    context 'when desk_booking does not exist' do
-      it 'logs a warning and does not call the API' do
-        # Expect a log warning
-        expect(Rails.logger).to receive(:warn).with("UpdateDeskLedJob: DeskBooking is nil.")
-
-        # Ensure no API call is made
-        expect_any_instance_of(DeskQ::Api).not_to receive(:update)
-
-        # Perform the job with a nil booking
-        described_class.perform_now(nil, 'RED')
+        described_class.perform_now(desk.sync_id, 'RED')
       end
     end
 
@@ -39,10 +26,10 @@ RSpec.describe DeskQ::UpdateDeskLedJob, type: :job do
         allow(api_instance).to receive(:update).and_raise(StandardError, "Test exception")
 
         # Expect a log error
-        expect(Rails.logger).to receive(:error).with("UpdateDeskLedJob: Failed to update LED for DeskBooking #{desk_booking.id} with error: Test exception")
+        expect(Rails.logger).to receive(:error).with("UpdateDeskLedJob: Failed to update LED for DeskSyncId #{desk.sync_id} with error: Test exception")
 
         # Perform the job
-        described_class.perform_now(desk_booking.id, 'RED')
+        described_class.perform_now(desk.sync_id, 'RED')
       end
     end
   end
