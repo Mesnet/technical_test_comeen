@@ -43,5 +43,7 @@ module DeskBookingTest
     config.integrations = config_for(:integrations)
 
     config.google_sheets = config_for("external_services/google_sheets")
+
+    config.desk_q = config_for("external_services/desk_q")
   end
 end
