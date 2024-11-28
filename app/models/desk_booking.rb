@@ -18,6 +18,14 @@ class DeskBooking < ApplicationRecord
     )
   end
 
+  scope :starting_soon, -> {
+    where('start_datetime <= ? AND end_datetime >= ? AND state IN (?)', 15.minutes.from_now, Time.current, ['booked', 'checked_in'])
+  }
+
+  scope :ending_soon, -> {
+    where('end_datetime <= ? AND state IN (?)', 15.minutes.from_now, ['booked', 'checked_in'])
+  }
+
   aasm column: :state do
     state :booked, initial: true
     state :canceled
@@ -43,7 +51,7 @@ class DeskBooking < ApplicationRecord
 
   def active?
     return false unless start_datetime && end_datetime
-    current_time = Time.current.in_time_zone(user.time_zone)
-    current_time.between?(start_datetime, end_datetime)
+
+    Time.current.between?(start_datetime, end_datetime)
   end
 end

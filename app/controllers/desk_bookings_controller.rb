@@ -25,7 +25,7 @@ class DeskBookingsController < ApplicationController
 
     with_model_errors_handling do
       @desk_booking = assist.book!(desk: @desk_booking.desk)
-      DeskQ::UpdateDeskLedJob.perform_now(@desk_booking.desk.sync_id, "GREEN") if @desk_booking.active?
+      DeskQ::UpdateDeskLedJob.perform_now(@desk_booking.desk.sync_id, "RED") if @desk_booking.active?
 
       render(jsonapi: @desk_booking, status: :created)
     rescue Desks::Booking::Errors::DeskBookingError => e
@@ -44,7 +44,7 @@ class DeskBookingsController < ApplicationController
   def check_out
     with_model_errors_handling do
       @desk_booking.check_out!
-      DeskQ::UpdateDeskLedJob.perform_now(@desk_booking.desk.sync_id, "RED")
+      DeskQ::UpdateDeskLedJob.perform_now(@desk_booking.desk.sync_id, "GREEN") if @desk_booking.active?
 
       render(jsonapi: @desk_booking)
     end
@@ -53,7 +53,7 @@ class DeskBookingsController < ApplicationController
   def destroy
     with_model_errors_handling do
       @desk_booking.cancel!
-      DeskQ::UpdateDeskLedJob.perform_now(@desk_booking.desk.sync_id, "RED") if @desk_booking.active?
+      DeskQ::UpdateDeskLedJob.perform_now(@desk_booking.desk.sync_id, "GREEN") if @desk_booking.active?
 
       head(:no_content)
     end
