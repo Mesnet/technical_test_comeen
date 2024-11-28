@@ -1,34 +1,87 @@
 # spec/lib/desk_q/api_spec.rb
-
 require 'rails_helper'
+require 'webmock/rspec'
 
 RSpec.describe DeskQ::Api do
   let(:api) { DeskQ::Api.new }
-  let(:sync_id) { 'B1F1D2' }
-  let(:attributes) { { color: "RED" } }
+  let(:base_url) { Rails.application.config.desk_q['base_url'] }
+  let(:api_key) { Rails.application.config.desk_q['api_key'] }
+  let(:sync_id) { '12345' }
+  let(:attributes) { { key: 'value' } }
+  let(:url) { "#{base_url}/#{sync_id}" }
 
-  describe "#update" do
-    # it "raises an error if attributes are not a hash" do
-    #   expect { api.update(sync_id, "invalid_attributes") }.to raise_error(ArgumentError, "Attributes must be a hash")
-    # end
+  before do
+    stub_request(:put, url)
+      .with(
+        headers: {
+          'Authorization' => "Bearer #{api_key}",
+          'Content-Type' => 'application/json'
+        },
+        body: attributes.to_json
+      )
+  end
 
-    it "updates the color of the desk successfully" do
-      response_data = {"id" => "41", "desk_sync_id" => "B1F1D2", "color" => "RED"}
+  describe '#update' do
+    context 'when the response is successful' do
+      let(:response_body) { { success: true, data: { id: sync_id } }.to_json }
 
-      # Mocking handle_response to simulate a successful update response.
-      allow(api).to receive(:handle_response).and_return(response_data)
+      before do
+        stub_request(:put, url)
+          .to_return(status: 200, body: response_body, headers: { 'Content-Type' => 'application/json' })
+      end
 
-      response = api.update(sync_id, attributes)
-      expect(response).to be_a(Hash)
-      expect(response['color']).to eq("RED")
+      it 'sends a PUT request to the correct URL with the correct headers and body' do
+        response = api.update(sync_id, attributes)
+
+        expect(response).to eq(JSON.parse(response_body))
+        expect(WebMock).to have_requested(:put, url)
+          .with(
+            headers: {
+              'Authorization' => "Bearer #{api_key}",
+              'Content-Type' => 'application/json'
+            },
+            body: attributes.to_json
+          )
+          .once
+      end
     end
 
-    it "returns nil if the update fails due to incorrect desk_sync_id (404)" do
-      # Mocking handle_response to simulate a 404 Not Found response during update.
-      allow(api).to receive(:handle_response).and_return(nil)
+    context 'when the response is not successful' do
+      before do
+        stub_request(:put, url)
+          .to_return(status: 500, body: 'Internal Server Error')
+      end
 
-      response = api.update(sync_id, attributes)
-      expect(response).to be_nil
+      it 'logs an error and returns nil' do
+        expect(Rails.logger).to receive(:error).with(/API request failed with status 500: Internal Server Error/)
+        response = api.update(sync_id, attributes)
+        expect(response).to be_nil
+      end
+    end
+
+    context 'when a JSON parsing error occurs' do
+      before do
+        stub_request(:put, url)
+          .to_return(status: 200, body: 'invalid_json')
+      end
+
+      it 'logs a JSON parsing error and returns nil' do
+        expect(Rails.logger).to receive(:error).with(/Failed to parse JSON response/)
+        response = api.update(sync_id, attributes)
+        expect(response).to be_nil
+      end
+    end
+
+    context 'when a network error occurs' do
+      before do
+        stub_request(:put, url).to_raise(SocketError)
+      end
+
+      it 'logs an error and returns the exception' do
+        expect(Rails.logger).to receive(:error).with(/Exception occurred while making PUT request/)
+        response = api.update(sync_id, attributes)
+        expect(response).to be_a(SocketError)
+      end
     end
   end
 end

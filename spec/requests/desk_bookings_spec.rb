@@ -11,10 +11,16 @@ DESK_BOOKING_PARAMS = {
   },
 }.freeze
 
+
 RSpec.describe("desk_bookings", type: :request) do
   include_context "authorized app request"
 
   let(:Authorization) { "Bearer #{user_token.token}" }
+
+  before do
+    # Mock the DeskQ::Api update method to prevent real API calls
+    allow_any_instance_of(DeskQ::Api).to receive(:update).and_return(true)
+  end
 
   path "/desks/{id}/book" do
     parameter name: "id", in: :path, type: :integer, description: "Desk id"
