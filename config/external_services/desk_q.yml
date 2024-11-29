@@ -1,0 +1,15 @@
+default: &default
+  base_url: "https://671a10dfacf9aa94f6a8f596.mockapi.io/api/v1/deskq"
+  api_key: <%= ENV.fetch('DESK_Q_API_KEY') %>
+
+production:
+  <<: *default
+
+staging:
+  <<: *default
+
+development:
+  <<: *default
+
+test:
+  <<: *default

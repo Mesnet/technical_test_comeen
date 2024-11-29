@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_29_195339) do
+ActiveRecord::Schema[7.2].define(version: 2024_11_28_165035) do
   create_table "desk_bookings", force: :cascade do |t|
     t.integer "desk_id", null: false
     t.integer "user_id", null: false
@@ -20,6 +20,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_29_195339) do
     t.datetime "updated_at", null: false
     t.string "state", default: "booked", null: false
     t.index ["desk_id"], name: "index_desk_bookings_on_desk_id"
+    t.index ["end_datetime"], name: "index_desk_bookings_on_end_datetime"
+    t.index ["start_datetime"], name: "index_desk_bookings_on_start_datetime"
     t.index ["user_id"], name: "index_desk_bookings_on_user_id"
   end
 
