@@ -19,11 +19,11 @@ class DeskBooking < ApplicationRecord
   end
 
   scope :starting_soon, -> {
-    where('start_datetime <= ? AND end_datetime >= ? AND state IN (?)', 15.minutes.from_now, Time.current, ['booked', 'checked_in'])
+    includes(:desk).where('start_datetime <= ? AND end_datetime >= ? AND state IN (?)', 15.minutes.from_now, Time.current, ['booked', 'checked_in'])
   }
 
   scope :ending_soon, -> {
-    where('end_datetime <= ? AND state IN (?)', 15.minutes.from_now, ['booked', 'checked_in'])
+    includes(:desk).where('end_datetime <= ? AND state IN (?)', 15.minutes.from_now, ['booked', 'checked_in'])
   }
 
   aasm column: :state do
